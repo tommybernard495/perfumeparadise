@@ -190,4 +190,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         contactForm.addEventListener('submit', handleContactForm);
     }
-}); 
+});
+
+function displayProducts() {
+    const productsContainer = document.getElementById('products');
+    productsContainer.innerHTML = '';
+
+    // Only show products that have images
+    const availableProducts = products.filter(product => {
+        const img = new Image();
+        img.src = product.image;
+        return img.complete || img.onload;
+    });
+
+    availableProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        productCard.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p class="price">€${product.price.toFixed(2)}</p>
+            <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+        productsContainer.appendChild(productCard);
+    });
+} 
